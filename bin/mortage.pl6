@@ -94,16 +94,32 @@ class Mortage {
     }
 }
 
-say "Init";
+#########
+## PKO ##
+#########
 my $pko = Mortage.new(bank=>"PKO", interest => Rat.new(353,$more_than_percent), mortage=>Rat.new(133864,100));
+# Obnizone oprocentowanie
+$pko.add(AnnualCostPercentage.new(from=>1, to=>12, interest=>Rat.new(-43,$more_than_percent)));
 # Oplata za konto
-$pko.add(AnnualCostConst.new(from=>1, to=>360, value=>Rat.new(7*5,3)));
+$pko.add(AnnualCostConst.new(from=>1, to=>360, value=>Rat.new(0*5,3)));
 # Pseudo polisa
 $pko.add(AnnualCostConst.new(from=>1, to=>1, value=> Rat.new(325,$more_than_promile)*$pko.to_pay));
 #Podwyzszenie marzy
 $pko.add(AnnualCostMort.new(from=>1, to=>64, interest => Rat.new(25,$more_than_percent)));
 #Wycena
 $pko.add(AnnualCostConst.new(from=>1, to=>1, value=>400));
+
+
+###########
+## MBANK ##
+###########
+my $mbank2 = Mortage.new(bank=>"MBANK2",interest => Rat.new(386,$more_than_percent), mortage=>Rat.new(139406,100));
+# polisa
+$mbank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank2.to_pay * Rat.new(164,$more_than_promile)));
+# Prowizja
+$mbank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank2.to_pay * Rat.new(2,100)));
+# ubezp
+$mbank2.add(AnnualCostMort.new(from=>25, to=>60, interest => Rat.new(4,100)));
 
 my $mbank = Mortage.new(bank=>"MBANK",interest => Rat.new(366,$more_than_percent), mortage=>Rat.new(136033,100));
 # polisa
@@ -112,6 +128,9 @@ $mbank.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank.to_pay* Rat.new(164
 $mbank.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank.to_pay * Rat.new(1,100)));
 # ubezp
 $mbank.add(AnnualCostMort.new(from=>25, to=>60, interest => Rat.new(4,100)));
+
+
+
 
 # FIXME: Niedokladne nie uwzglednia zyskow z funduszy ani oplaty za prowadzenie ,,portfela'' 
 my $db = Mortage.new(bank=>"DB",interest => Rat.new(379,$more_than_percent), mortage=>Rat.new(138220,100));
@@ -123,15 +142,18 @@ $db.add(AnnualCostConst.new(from=>1, to=>360, value=>24));
 
 say $pko.calc_mortage.round(0.01);
 say $mbank.calc_mortage.round(0.01);
+say $mbank2.calc_mortage.round(0.01);
 say $db.calc_mortage.round(0.01);
 
 
 $pko.calc;
 $mbank.calc;
+$mbank2.calc;
 $db.calc;
 
 say "Done";
 say $pko;
 say $mbank;
+say $mbank2;
 say $db;
 
