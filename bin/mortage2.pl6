@@ -3,7 +3,7 @@ use v6;
 constant $more_than_percent = 120000;
 constant $more_than_promile = 10000;
 constant $PLN_GR = 100;
-
+constant $percent = 100;
 class AnnualCost{
     has Int $.from;
     has Int $.to;
@@ -30,7 +30,18 @@ class AnnualCostConst is AnnualCost {
     }
 
 }
-    
+ 
+class DBIWP is AnnualCostConst {
+    has Rat $.cumulation;
+    has Rat $.antiinterest;
+    method get($toPay,$mortage){
+        $!cumulation += 290;
+        #say "$!cumulation ({$!cumulation*$!antiinterest})";
+        return 10+$!cumulation*$!antiinterest;
+
+    }
+
+}   
 class Mortage {
     has Str $.bank;
     has $.to_pay = Rat.new(297000,1);
@@ -99,29 +110,30 @@ my $mbank2 = Mortage.new(bank=>"MBANK2",interest => Rat.new(324,$more_than_perce
 # polisa
 $mbank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank2.to_pay* Rat.new(164,$more_than_promile)));
 # Prowizja
-$mbank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank2.to_pay * Rat.new(1,100)));
+$mbank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank2.to_pay * Rat.new(1,$percent)));
 # ubezp
-$mbank2.add(AnnualCostMort.new(from=>25, to=>60, interest => Rat.new(4,100)));
+$mbank2.add(AnnualCostMort.new(from=>25, to=>60, interest => Rat.new(4,$percent)));
 $mbank2.add(AnnualCostConst.new(from=>1, to=>360, value => Rat.new(2145,$PLN_GR)));
 
 my $mbank = Mortage.new(bank=>"MBANK",interest => Rat.new(330,$more_than_percent), mortage=>Rat.new(130073,$PLN_GR));
 # polisa
 $mbank.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank.to_pay * Rat.new(164,$more_than_promile)));
 # Prowizja
-$mbank.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank.to_pay * Rat.new(1,100)));
+$mbank.add(AnnualCostConst.new(from=>1, to=>1, value=>$mbank.to_pay * Rat.new(1,$percent)));
 # ubezp
-$mbank.add(AnnualCostMort.new(from=>25, to=>60, interest => Rat.new(4,100)));
+$mbank.add(AnnualCostMort.new(from=>25, to=>60, interest => Rat.new(4,$percent)));
 $mbank.add(AnnualCostConst.new(from=>1, to=>360, value => Rat.new(2145,$PLN_GR)));
 
 
 
-## FIXME: Niedokladne nie uwzglednia zyskow z funduszy ani oplaty za prowadzenie ,,portfela'' 
 my $db = Mortage.new(bank=>"DB",interest => Rat.new(324,$more_than_percent), mortage=>Rat.new(129093,$PLN_GR));
-$db.add(AnnualCostConst.new(from=>1, to=>1, value=>$db.to_pay * Rat.new(108,$more_than_promile)));
-$db.add(AnnualCostConst.new(from=>13, to=>120, value=>Rat.new(300,1)));
+#POlisa DBIWP
+$db.add(DBIWP.new(from=>1, to=>120,
+                            cumulation=>$db.to_pay * Rat.new(108,$more_than_promile),
+                            antiinterest => Rat.new(2,$percent)));
 $db.add(AnnualCostPercentage.new(from=>1, to=>12, interest=>Rat.new(-39,$more_than_percent)));
 $db.add(AnnualCostPercentage.new(from=>25, to=>66, interest => Rat.new(20,$more_than_percent)));
-#$db.add(AnnualCostConst.new(from=>1, to=>360, value=>12));
+$db.add(AnnualCostConst.new(from=>1, to=>360, value=>20));
 #$db.add(AnnualCostConst.new(from=>1, to=>360, value=>3));
 
 
