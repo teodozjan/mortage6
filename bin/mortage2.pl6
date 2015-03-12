@@ -32,10 +32,11 @@ class AnnualCostConst is AnnualCost {
 }
  
 class DBIWP is AnnualCostConst {
-    has Rat $.cumulation;
-    has Rat $.antiinterest;
+    has $.cumulation;
+    has $.antiinterest;
     method get($toPay,$mortage){
         $!cumulation += 290;
+        $!cumulation -= $!cumulation*$!antiinterest;
         #say "$!cumulation ({$!cumulation*$!antiinterest})";
         return 10+$!cumulation*$!antiinterest;
 
