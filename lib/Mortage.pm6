@@ -1,9 +1,9 @@
 use v6;
 
-constant $more_than_percent = 120000;
-constant $more_than_promile = 10000;
-constant $pennies = 100;
-constant $percent = 100;
+constant $more_than_percent is export = 120000;
+constant $more_than_promile is export = 10000;
+constant $pennies is export = 100;
+constant $percent is export = 100;
 
 class AnnualCost{
     has Int $.from;
@@ -54,7 +54,7 @@ class Mortage {
            
             my $intests =  $!interest*$!to_pay;
 
-            #say $mort, "  ",$intests.round(0.01), " ", $!to_pay.round(0.01);
+            #say $mort, "  ",$intests.round(0.001), " ", $!to_pay.round(0.001);
             
             $!to_pay -= $!mortage;
             $!total_interest += $intests;
@@ -83,7 +83,7 @@ class Mortage {
             my $n = $.mortages;
             my $L = $.to_pay;
             my $my_mortage = ($L*($c*(1 + $c)**$n))/((1 + $c)**$n - 1);
-            return $my_mortage;
+            return $my_mortage.round(0.01);
 
             
     }
