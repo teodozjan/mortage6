@@ -7,5 +7,5 @@
     "provides"    : {
 	        "Mortage" : "lib/Mortage.pm6"
 	 },
-    "source-url"  : "git://github.com/teodozjan/mortage.git"
+    "source-url"  : "https://github.com/teodozjan/mortage.git"
 }
