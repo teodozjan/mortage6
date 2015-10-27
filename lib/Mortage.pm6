@@ -9,22 +9,22 @@ constant $percent is export = 100;
 class AnnualCost{
     has Int $.from;
     has Int $.to;
-    sub foo {!!!} 
+    method get( $toPay,  $mortage) {!!!} 
 }
 
 #| Cost based on debt left
 class AnnualCostPercentage is AnnualCost {
-    has $.interest_rate;
+    has $.interest;
     method get( $toPay,  $mortage) { 
-        return $toPay*$!interest_rate;
+        return $toPay*$!interest;
     }
 }
 
 #| Cost based on monthly mortage installment
 class AnnualCostMort is AnnualCost {
-    has $.interest_rate;
+    has $.interest;
     method get( $toPay,  $mortage) {
-        return $mortage*$!interest_rate;
+        return $mortage*$!interest;
     }
 }
 
