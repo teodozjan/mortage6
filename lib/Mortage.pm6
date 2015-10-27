@@ -4,7 +4,7 @@ constant $more_than_percent is export = 120000;
 constant $more_than_promile is export = 10000;
 
 #| Converts percent to Rat
-sub from-percent($rate --> Rat) is export {
+sub percent($rate --> Rat) is export {
     Rat.new($rate,100);
 }
 
