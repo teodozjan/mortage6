@@ -32,18 +32,23 @@ class AnnualCostConst is AnnualCost {
 
 }
 
+#| Methods int this class don't round values unless specified.
+#| Most common type is Rat that gives good enough precision.
 class Mortage {
-    has Str $.currency;
-    has Str $.bank;
-    has $.to_pay = Rat.new(297000,1);
-    has $.interest;
-    has Int $.mortages = 360;
-    has $.mortage;
-    has $.total_interest = Rat.new(0,1);
-    has $.total_cost = Rat.new(0,1);
-    has AnnualCost @.costs;
+    #TODO sparate input data from output data
+    has Str $.currency; #= Currency, for gist 
+    has Str $.bank; #= Bank name for gist
+    has $.to_pay = Rat.new(297000,1); #= how much debt left
+    has $.interest; #= Basic value for calculation of interest TODO rename to interest rate
+    has Int $.mortages = 360; #= It is adjustable to comapare it with your bank calculations
+    has $.mortage; #= The mony you pay monthly without other costs 
+    has $.total_interest = Rat.new(0,1); #= total interest paid
+    has $.total_cost = Rat.new(0,1); #total cost, including interest
+    has AnnualCost @.costs; #= Costs list included in calculation
 
+    #| Simulation runs here. Calculates all months. 
     method calc {
+        #= Results are visible in B<gist> and $.total_cost, $.to_pay
         for 1 .. $!mortages -> $mort {            
            
             for @!costs -> $cost {
@@ -52,6 +57,7 @@ class Mortage {
                 }                
             }
            
+            #TODO rename
             my $intests =  $!interest*$!to_pay;
 
             #say $mort, "  ",$intests.round(0.001), " ", $!to_pay.round(0.001);
@@ -62,11 +68,10 @@ class Mortage {
             
             # Uncomment if want infltation
             #$!total_interest *= 1-Rat.new(200,$more_than_percent);
-            
-            
-        }
+            }
     }
-
+    
+    #| Provides summary with value round
     method gist {
         return join "$!currency\n", $.bank,
         "Mortage " ~ $.mortage.round(0.01),
@@ -76,22 +81,24 @@ class Mortage {
         "Total cost: " ~ ($.total_cost+$.total_interest).round(0.01);
         # if correctly calculated $.to_pay should be close to 0
     }
-
+    
+    #| Will calculate mortage only pay. Without other costs.
+    #| Value is rounded!
     method calc_mortage {
-
             my $c = $.interest;
             my $n = $.mortages;
             my $L = $.to_pay;
             my $my_mortage = ($L*($c*(1 + $c)**$n))/((1 + $c)**$n - 1);
             return $my_mortage.round(0.01);
-
-            
     }
 
+    #| Every cost is counted annualy so if you want to
+    #| add one time cost just place it in correct month
     method add(AnnualCost $cost){
         @!costs.push($cost);
     }
-
+    
+    #| pay off debt
     method cash($cash){
         $!to_pay -= $cash;
     }
