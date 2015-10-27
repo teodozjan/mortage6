@@ -2,7 +2,7 @@ use v6;
 use Test;
 use Mortage;
 
-plan 14;
+plan 15;
 
 class DBIWP is AnnualCostConst {
     has $.cumulation;
@@ -14,7 +14,7 @@ class DBIWP is AnnualCostConst {
     }
 }
 
-my $bank2 = Mortage.new(bank=>"BANK",interest => Rat.new(324,$more_than_percent), mortage=> money-in 129093);
+my $bank2 = Mortage.new(bank=>"BANK",interest => bigrate(324), mortage => money-in 129093);
 # polisa
 $bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay* Rat.new(164,$more_than_promile)));
 # Prowizja
@@ -23,7 +23,7 @@ $bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay * percent 1)
 $bank2.add(AnnualCostMort.new(from=>25, to=>60, interest => percent 4));
 $bank2.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
-my $bank = Mortage.new(bank=>"BANK2",interest => Rat.new(330,$more_than_percent), mortage=> money-in 130073);
+my $bank = Mortage.new(bank=>"BANK2",interest => bigrate(330), mortage=> money-in 130073);
 # polisa
 $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.to_pay * Rat.new(164,$more_than_promile)));
 # Prowizja
@@ -34,15 +34,14 @@ $bank.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
 
 
-my $bank3 = Mortage.new(bank=>"BANK3",interest => Rat.new(324,$more_than_percent), mortage=> money-in 129093);
+my $bank3 = Mortage.new(bank=>"BANK3",interest => bigrate(324), mortage=> money-in 129093);
 #POlisa DBIWP
 $bank3.add(DBIWP.new(from=>1, to=>120,
                             cumulation=>$bank3.to_pay * Rat.new(108,$more_than_promile),
                             antiinterest => percent 2));
-$bank3.add(AnnualCostPercentage.new(from=>1, to=>12, interest=>Rat.new(-39,$more_than_percent)));
-$bank3.add(AnnualCostPercentage.new(from=>25, to=>66, interest => Rat.new(20,$more_than_percent)));
+$bank3.add(AnnualCostPercentage.new(from=>1, to=>12, interest=> bigrate(-39)));
+$bank3.add(AnnualCostPercentage.new(from=>25, to=>66, interest => bigrate(20)));
 $bank3.add(AnnualCostConst.new(from=>1, to=>360, value=>20));
-#$bank3.add(AnnualCostConst.new(from=>1, to=>360, value=>3));
 
 
 is $bank.calc_mortage, money-in(130073),"Basic monthly";
@@ -69,3 +68,4 @@ is $bank3.total_interest.round(0.01),167736.8, "Total interests";
 
 is percent(4),0.04, "Percent sub";
 is money-in(12345), 123.45, "Money sub";
+is bigrate(404),Rat.new(404,120000), "BigRate Sub";
