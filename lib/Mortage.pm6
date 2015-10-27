@@ -2,6 +2,7 @@ use v6;
 
 #| Converts percent to Rat
 sub percent(Int $rate --> Rat) is export {
+    #= 4 becomes 0.04
     Rat.new($rate,100);
 }
 
@@ -20,8 +21,10 @@ sub bigrate(Int $rate --> Rat) is export {
 
 #| Converts percents wrote without decimal separator
 sub smallrate(Int $rate --> Rat) is export {
+    #= 404 becomes 0.404
     Rat.new($rate,10000);
 }
+
 #| Mother interface for all costs
 class AnnualCost{
     has Int $.from;
