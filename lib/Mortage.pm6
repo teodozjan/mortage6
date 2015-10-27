@@ -2,8 +2,16 @@ use v6;
 
 constant $more_than_percent is export = 120000;
 constant $more_than_promile is export = 10000;
-constant $pennies is export = 100;
-constant $percent is export = 100;
+
+#| Converts percent to Rat
+sub from-percent($rate --> Rat) is export {
+    Rat.new($rate,100);
+}
+
+#| Converts 12345 to 123.45 as Rat
+sub money-in ($money --> Rat) is export {
+    Rat.new($money,100);
+}
 
 #| Mother interface for all costs
 class AnnualCost{
