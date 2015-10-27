@@ -1,25 +1,27 @@
 use v6;
 
-constant $more_than_promile is export = 10000;
-
 #| Converts percent to Rat
-sub percent($rate --> Rat) is export {
+sub percent(Int $rate --> Rat) is export {
     Rat.new($rate,100);
 }
 
 #| Converts 12345 to 123.45 as Rat
-sub money-in ($money --> Rat) is export {
+sub money-in (Int $money --> Rat) is export {
     Rat.new($money,100);
 }
 
 #| Converts interest rate that is yearly
-sub bigrate($rate --> Rat) is export {
+sub bigrate(Int $rate --> Rat) is export {
     #= Due to rat is not allowing double we use 
     #= following notation 4.04% is 404
     #= $rate / hundred / percent / months om year
     Rat.new($rate,120000);
 }
 
+#| Converts percents wrote without decimal separator
+sub smallrate(Int $rate --> Rat) is export {
+    Rat.new($rate,10000);
+}
 #| Mother interface for all costs
 class AnnualCost{
     has Int $.from;

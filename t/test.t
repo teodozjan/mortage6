@@ -2,7 +2,7 @@ use v6;
 use Test;
 use Mortage;
 
-plan 15;
+plan 16;
 
 class DBIWP is AnnualCostConst {
     has $.cumulation;
@@ -16,7 +16,7 @@ class DBIWP is AnnualCostConst {
 
 my $bank2 = Mortage.new(bank=>"BANK",interest => bigrate(324), mortage => money-in 129093);
 # polisa
-$bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay* Rat.new(164,$more_than_promile)));
+$bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay* smallrate(164)));
 # Prowizja
 $bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay * percent 1));
 # ubezp
@@ -25,7 +25,7 @@ $bank2.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
 my $bank = Mortage.new(bank=>"BANK2",interest => bigrate(330), mortage=> money-in 130073);
 # polisa
-$bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.to_pay * Rat.new(164,$more_than_promile)));
+$bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.to_pay * smallrate 164));
 # Prowizja
 $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.to_pay * percent 1));
 # ubezp
@@ -37,7 +37,7 @@ $bank.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 my $bank3 = Mortage.new(bank=>"BANK3",interest => bigrate(324), mortage=> money-in 129093);
 #POlisa DBIWP
 $bank3.add(DBIWP.new(from=>1, to=>120,
-                            cumulation=>$bank3.to_pay * Rat.new(108,$more_than_promile),
+                            cumulation=>$bank3.to_pay * smallrate(108),
                             antiinterest => percent 2));
 $bank3.add(AnnualCostPercentage.new(from=>1, to=>12, interest=> bigrate(-39)));
 $bank3.add(AnnualCostPercentage.new(from=>25, to=>66, interest => bigrate(20)));
@@ -69,3 +69,4 @@ is $bank3.total_interest.round(0.01),167736.8, "Total interests";
 is percent(4),0.04, "Percent sub";
 is money-in(12345), 123.45, "Money sub";
 is bigrate(404),Rat.new(404,120000), "BigRate Sub";
+is smallrate(101),Rat.new(101,10000);
