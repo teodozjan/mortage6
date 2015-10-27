@@ -5,25 +5,30 @@ constant $more_than_promile is export = 10000;
 constant $pennies is export = 100;
 constant $percent is export = 100;
 
+#| Mother interface for all costs
 class AnnualCost{
     has Int $.from;
     has Int $.to;
+    sub foo {!!!} 
 }
 
+#| Cost based on debt left
 class AnnualCostPercentage is AnnualCost {
-    has $.interest;
+    has $.interest_rate;
     method get( $toPay,  $mortage) { 
-        return $toPay*$!interest;
+        return $toPay*$!interest_rate;
     }
 }
 
-
+#| Cost based on monthly mortage installment
 class AnnualCostMort is AnnualCost {
-    has $.interest;
+    has $.interest_rate;
     method get( $toPay,  $mortage) {
-        return $mortage*$!interest;
+        return $mortage*$!interest_rate;
     }
 }
+
+#| Annual cost not basing on anything just constant value
 class AnnualCostConst is AnnualCost {
     has  $.value;
     method get( $toPay,  $mortage)   {
@@ -34,6 +39,7 @@ class AnnualCostConst is AnnualCost {
 
 #| Methods int this class don't round values unless specified.
 #| Most common type is Rat that gives good enough precision.
+#| Interest rates are stored in absolute value so 4% is 4/100
 class Mortage {
     #TODO sparate input data from output data
     has Str $.currency; #= Currency, for gist 
