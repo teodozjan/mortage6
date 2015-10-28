@@ -64,9 +64,9 @@ class Mortage {
     #TODO sparate input data from output data
     has Str $.currency; #= Currency, for gist 
     has Str $.bank; #= Bank name for gist
-    has $.to_pay = Rat.new(297000,1); #= how much debt left
+    has $.to_pay; #= how much debt left
     has $.interest; #= Basic value for calculation of interest TODO rename to interest rate
-    has Int $.mortages = 360; #= It is adjustable to comapare it with your bank calculations
+    has Int $.mortages; #= It is adjustable to comapare it with your bank calculations
     has $.mortage; #= The mony you pay monthly without other costs 
     has $.total_interest = Rat.new(0,1); #= total interest paid
     has $.total_cost = Rat.new(0,1); #total cost, including interest

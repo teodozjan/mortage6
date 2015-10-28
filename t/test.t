@@ -14,7 +14,7 @@ class DBIWP is AnnualCostConst {
     }
 }
 
-my $bank2 = Mortage.new(bank=>"BANK",interest => bigrate(324), mortage => money-in 129093);
+my $bank2 = Mortage.new(bank=>"BANK",interest => bigrate(324), mortage => money-in(129093), mortages => 360, to_pay=> 297000);
 # polisa
 $bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay* smallrate(164)));
 # Prowizja
@@ -23,7 +23,7 @@ $bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay * percent 1)
 $bank2.add(AnnualCostMort.new(from=>25, to=>60, interest => percent 4));
 $bank2.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
-my $bank = Mortage.new(bank=>"BANK2",interest => bigrate(330), mortage=> money-in 130073);
+my $bank = Mortage.new(bank=>"BANK2",interest => bigrate(330), mortage=> money-in(130073), mortages => 360, to_pay=> 297000);
 # polisa
 $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.to_pay * smallrate 164));
 # Prowizja
@@ -34,7 +34,7 @@ $bank.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
 
 
-my $bank3 = Mortage.new(bank=>"BANK3",interest => bigrate(324), mortage=> money-in 129093);
+my $bank3 = Mortage.new(bank=>"BANK3",interest => bigrate(324), mortage=> money-in(129093), mortages => 360, to_pay=> 297000);
 #POlisa DBIWP
 $bank3.add(DBIWP.new(from=>1, to=>120,
                             cumulation=>$bank3.to_pay * smallrate(108),
