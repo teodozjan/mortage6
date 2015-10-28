@@ -12,7 +12,7 @@ sub money-in (Int $money --> Rat) is export {
 }
 
 #| Converts interest rate that is yearly
-sub bigrate(Int $rate --> Rat) is export {
+sub rate-monthly(Numeric $rate) is export {
     #= Due to rat is not allowing double we use 
     #= following notation 4.04% is 404
     #= $rate / hundred / percent / months om year
@@ -34,17 +34,17 @@ class AnnualCost{
 
 #| Cost based on debt left
 class AnnualCostPercentage is AnnualCost {
-    has $.interest;
+    has $.interest_rate;
     method get( $toPay,  $mortage) { 
-        return $toPay*$!interest;
+        return $toPay*$!interest_rate;
     }
 }
 
 #| Cost based on monthly mortage installment
 class AnnualCostMort is AnnualCost {
-    has $.interest;
+    has $.interest_rate;
     method get( $toPay,  $mortage) {
-        return $mortage*$!interest;
+        return $mortage*$!interest_rate;
     }
 }
 
@@ -57,19 +57,18 @@ class AnnualCostConst is AnnualCost {
 
 }
 
-#| Methods int this class don't round values unless specified.
-#| Most common type is Rat that gives good enough precision.
+#| Methods int this class don't round values unless specified.#|
 #| Interest rates are stored in absolute value so 4% is 4/100
 class Mortage {
     #TODO sparate input data from output data
     has Str $.currency; #= Currency, for gist 
     has Str $.bank; #= Bank name for gist
-    has $.to_pay; #= how much debt left
-    has $.interest; #= Basic value for calculation of interest TODO rename to interest rate
+    has Numeric $.to_pay; #= how much debt left
+    has Numeric $.interest_rate; #= Basic value for calculation of interest TODO rename to interest rate        
     has Int $.mortages; #= It is adjustable to comapare it with your bank calculations
-    has $.mortage; #= The mony you pay monthly without other costs 
-    has $.total_interest = Rat.new(0,1); #= total interest paid
-    has $.total_cost = Rat.new(0,1); #total cost, including interest
+    has Numeric $.mortage; #= The money you pay monthly without other costs 
+    has Numeric $.total_interest; #= total interest paid
+    has Numeric $.total_cost; #total cost, including interest
     has AnnualCost @.costs; #= Costs list included in calculation
 
     #| Simulation runs here. Calculates all months. 
@@ -84,7 +83,7 @@ class Mortage {
             }
            
             #TODO rename
-            my $intests =  $!interest*$!to_pay;
+            my $intests =  $!interest_rate*$!to_pay;
 
             #say $mort, "  ",$intests.round(0.001), " ", $!to_pay.round(0.001);
             
@@ -92,9 +91,7 @@ class Mortage {
             $!total_interest += $intests;
             $!to_pay +=  $intests;
             
-            # Uncomment if want infltation
-            #$!total_interest *= 1-Rat.new(200,$more_than_percent);
-            }
+        }
     }
     
     #| Provides summary with value round
@@ -111,7 +108,7 @@ class Mortage {
     #| Will calculate mortage only pay. Without other costs.
     #| Value is rounded!
     method calc_mortage {
-            my $c = $.interest;
+            my $c = $.interest_rate;
             my $n = $.mortages;
             my $L = $.to_pay;
             my $my_mortage = ($L*($c*(1 + $c)**$n))/((1 + $c)**$n - 1);
