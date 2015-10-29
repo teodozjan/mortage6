@@ -3,7 +3,7 @@ use v6;
 #| $c = interest rate;
 #| $n = mortages;
 #| $L = loan value;
-sub calculate-loan($c,$n,$L) {
+sub calculate-payment($c,$n,$L) {
     ($L*($c*(1 + $c)**$n))/((1 + $c)**$n - 1)
 }
 
@@ -118,7 +118,7 @@ class Mortage {
             my $c = $.interest_rate;
             my $n = $.mortages;
             my $L = $.loan-left;
-            my $my_mortage = calculate-loan($c,$n,$L);
+            my $my_mortage = calculate-payment($c,$n,$L);
             return $my_mortage.round(0.01);
     }
 
