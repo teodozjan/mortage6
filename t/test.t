@@ -14,30 +14,30 @@ class DBIWP is AnnualCostConst {
     }
 }
 
-my $bank2 = Mortage.new(bank=>"BANK",interest_rate => rate-monthly(324), mortage => money-in(129093), mortages => 360, to_pay=> 297000);
+my $bank2 = Mortage.new(bank=>"BANK",interest_rate => rate-monthly(324), mortage => money-in(129093), mortages => 360, loan-left=> 297000);
 # polisa
-$bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay* smallrate(164)));
+$bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left* smallrate(164)));
 # Prowizja
-$bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay * percent 1));
+$bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left * percent 1));
 # ubezp
 $bank2.add(AnnualCostMort.new(from=>25, to=>60, interest_rate => percent 4));
 $bank2.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
-my $bank = Mortage.new(bank=>"BANK2",interest_rate => rate-monthly(330), mortage=> money-in(130073), mortages => 360, to_pay=> 297000);
+my $bank = Mortage.new(bank=>"BANK2",interest_rate => rate-monthly(330), mortage=> money-in(130073), mortages => 360, loan-left=> 297000);
 # polisa
-$bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.to_pay * smallrate 164));
+$bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.loan-left * smallrate 164));
 # Prowizja
-$bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.to_pay * percent 1));
+$bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.loan-left * percent 1));
 # ubezp
 $bank.add(AnnualCostMort.new(from=>25, to=>60, interest_rate => percent 4));
 $bank.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
 
 
-my $bank3 = Mortage.new(bank=>"BANK3",interest_rate => rate-monthly(324), mortage=> money-in(129093), mortages => 360, to_pay=> 297000);
+my $bank3 = Mortage.new(bank=>"BANK3",interest_rate => rate-monthly(324), mortage=> money-in(129093), mortages => 360, loan-left=> 297000);
 #POlisa DBIWP
 $bank3.add(DBIWP.new(from=>1, to=>120,
-                            cumulation=>$bank3.to_pay * smallrate(108),
+                            cumulation=>$bank3.loan-left * smallrate(108),
                             antiinterest => percent 2));
 $bank3.add(AnnualCostPercentage.new(from=>1, to=>12, interest_rate=> rate-monthly(-39)));
 $bank3.add(AnnualCostPercentage.new(from=>25, to=>66, interest_rate => rate-monthly(20)));
@@ -54,9 +54,9 @@ $bank2.calc;
 $bank3.calc;
 
 
-is $bank.to_pay.round(0.01), -1.84, "Balance";
-is $bank2.to_pay.round(0.01),2, "Balance";
-is $bank3.to_pay.round(0.01),2, "Balance";
+is $bank.loan-left.round(0.01), -1.84, "Balance";
+is $bank2.loan-left.round(0.01),2, "Balance";
+is $bank3.loan-left.round(0.01),2, "Balance";
 
 is $bank.total_cost.round(0.01),17435.85, "Other costs";
 is $bank2.total_cost.round(0.01),17421.74, "Other costs";
