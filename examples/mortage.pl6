@@ -4,7 +4,7 @@ use Mortage;
 #########
 ## PKO ##
 #########
-my $pko = Mortage.new(currency=>"PLN",bank=>"PKO", interest_rate => rate-monthly(3.53), mortage=>1338.64,mortages=>360, loan-left=>297000);
+my $pko = Mortage.new(currency=>"PLN",bank=>"PKO", interest_rate => rate-monthly(3.53), mortage=>1338.64,mortages=>360, loan-left=>297000.FatRat);
 # Obnizone oprocentowanie
 $pko.add(AnnualCostPercentage.new(from=>1, to=>12, interest_rate=>rate-monthly(-0.43)));
 # Oplata za konto

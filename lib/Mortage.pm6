@@ -123,17 +123,20 @@ class Mortage {
             $!loan-left +=  $intests;
             
         }
+        
     }
     
     #| Provides summary with value round
     method gist {
-        return join "$!currency\n", $.bank,
-        "Mortage " ~ $.mortage.round(0.01),
-        "Balance: " ~ $.loan-left.round(0.01),
-        "Basic interests: " ~ $.total_interest.round(0.01),
-        "Other costs: " ~ $.total_cost.round(0.01),
-        "Total cost: " ~ ($.total_cost+$.total_interest).round(0.01);
-        # if correctly calculated $.loan-left should be close to 0
+        return $!bank ~ "\n" ~ join(" $!currency\n",
+        "Mortage " ~ $!mortage.round(0.01),
+        "Balance: " ~ $!loan-left.round(0.01),
+        "Basic interests: " ~ $!total_interest.round(0.01),
+        "Other costs: " ~ $!total_cost.round(0.01),
+        "Total cost: " ~ ($!total_cost+$!total_interest).round(0.01)) ~
+        "\nType used for cost " ~ $!total_cost.WHAT.gist ~
+        "\nType used for calculation " ~ $!loan-left.WHAT.gist;
+        # if correctly calculated $!loan-left should be close to 0
     }
     
     #| Will calculate mortage only pay. Without other costs.
@@ -170,6 +173,17 @@ C<Mortage> is a module that reads simulates mortage with emphasis on additional 
      $bank.calc; # all the stuff goes here
      say $bank;
     =end code
+
+=head1 Precision
+
+Type used for calculation is based on data put by user. So if C<FatRat> is
+provided it gets infinite precision. If Rat is provided, that is most common
+perl6 type for non-integer, probalby rakudo will implicitly change it to C<Num>.
+Don't worry for most mortages there is no difference.
+
+=head1 Rounding
+
+For now it uses arithmetic rounding. In future it should use bank rounding.
    
 =end pod
 
