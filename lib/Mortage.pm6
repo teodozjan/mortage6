@@ -51,7 +51,7 @@ sub rate-monthly(Numeric $rate) is export {
     $rate/1200;
 }
 
-#| Converts fractions of percents wrote without decimal separator
+#| Converts fractions of percents 
 sub basis-point(Numeric $rate) is export {    
     $rate/10000;
 }
