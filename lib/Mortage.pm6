@@ -1,10 +1,20 @@
 use v6;
 
+#| Calculate monthly payment
 #| $c = interest rate;
 #| $n = mortages;
 #| $L = loan value;
-sub calculate-payment($c,$n,$L) {
+sub calculate-payment($c,$n,$L) is export{
     ($L*($c*(1 + $c)**$n))/((1 + $c)**$n - 1)
+}
+
+#| calculate-balance at any moment of loan
+#| $c = interest rate;
+#| $n = mortages;
+#| $L = loan value;
+# TODO tests
+sub calculate-balance() is export {
+    B = $L((1 + $c)**$n - (1 + $c)**$p)/((1 + $c)**$n - 1)
 }
 
 #| Converts percent to Rat
