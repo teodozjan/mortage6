@@ -52,7 +52,7 @@ sub rate-monthly(Numeric $rate) is export {
 }
 
 #| Converts fractions of percents wrote without decimal separator
-sub smallrate(Int $rate) is export {    
+sub basis-point(Numeric $rate) is export {    
     $rate/10000;
 }
 
@@ -166,7 +166,7 @@ C<Mortage> is a module that reads simulates mortage with emphasis on additional 
     =begin code
      use Mortage;
      my $bank = Mortage.new(bank=>"BANK",interest_rate => rate-monthly(324), mortage => money-in(129093), mortages => 360, loan-left=> 297000); 
-     $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left * smallrate(164))); # paid only once
+     $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left * basis-point(164))); # paid only once
      $bank.calc; # all the stuff goes here
      say $bank;
     =end code
