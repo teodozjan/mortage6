@@ -14,7 +14,7 @@ class DBIWP is AnnualCostConst {
     }
 }
 
-my $bank2 = Mortage.new(bank=>"BANK",interest_rate => rate-monthly(324), mortage => money-in(129093), mortages => 360, loan-left=> 297000);
+my $bank2 = Mortage.new(bank=>"BANK",interest_rate => rate-monthly(3.24), mortage => money-in(129093), mortages => 360, loan-left=> 297000);
 # polisa
 $bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left* smallrate(164)));
 # Prowizja
@@ -23,7 +23,7 @@ $bank2.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left * percent
 $bank2.add(AnnualCostMort.new(from=>25, to=>60, interest_rate => percent 4));
 $bank2.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
-my $bank = Mortage.new(bank=>"BANK2",interest_rate => rate-monthly(330), mortage=> money-in(130073), mortages => 360, loan-left=> 297000);
+my $bank = Mortage.new(bank=>"BANK2",interest_rate => rate-monthly(3.30), mortage=> money-in(130073), mortages => 360, loan-left=> 297000);
 # polisa
 $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank.loan-left * smallrate 164));
 # Prowizja
@@ -34,13 +34,13 @@ $bank.add(AnnualCostConst.new(from=>1, to=>360, value => money-in 2145));
 
 
 
-my $bank3 = Mortage.new(bank=>"BANK3",interest_rate => rate-monthly(324), mortage=> money-in(129093), mortages => 360, loan-left=> 297000);
+my $bank3 = Mortage.new(bank=>"BANK3",interest_rate => rate-monthly(3.24), mortage=> money-in(129093), mortages => 360, loan-left=> 297000);
 #POlisa DBIWP
 $bank3.add(DBIWP.new(from=>1, to=>120,
                             cumulation=>$bank3.loan-left * smallrate(108),
                             antiinterest => percent 2));
-$bank3.add(AnnualCostPercentage.new(from=>1, to=>12, interest_rate=> rate-monthly(-39)));
-$bank3.add(AnnualCostPercentage.new(from=>25, to=>66, interest_rate => rate-monthly(20)));
+$bank3.add(AnnualCostPercentage.new(from=>1, to=>12, interest_rate=> rate-monthly(-0.39)));
+$bank3.add(AnnualCostPercentage.new(from=>25, to=>66, interest_rate => rate-monthly(0.20)));
 $bank3.add(AnnualCostConst.new(from=>1, to=>360, value=>20));
 
 
@@ -68,5 +68,5 @@ is $bank3.total_interest.round(0.01),167736.8, "Total interests";
 
 is percent(4),0.04, "Percent sub";
 is money-in(12345), 123.45, "Money sub";
-is rate-monthly(404),Rat.new(404,120000), "Rate-Monthly Sub";
+is rate-monthly(4.04),Rat.new(404,120000), "Rate-Monthly Sub";
 is smallrate(101),Rat.new(101,10000);

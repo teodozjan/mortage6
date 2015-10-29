@@ -52,10 +52,8 @@ sub money-in (Numeric $money) is export {
 
 #| Converts interest rate that is yearly
 sub rate-monthly(Numeric $rate) is export {
-    #= Due to rat is not allowing double we use 
-    #= following notation 4.04% is 404
-    #= $rate / hundred / percent / months om year
-    $rate/120000;
+    #= $rate / percent / months om year
+    $rate/1200;
 }
 
 #| Converts fractions of percents wrote without decimal separator
