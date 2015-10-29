@@ -39,15 +39,15 @@ sub calculate-fvalue($S,$c,$n) is export {$S*(1+$c)**$n}
 # TODO tests
 sub calculate-fvalue-series($P,$n,$c){ $P*[(1+$c)**$n - 1]/$c}
     
-#| Converts percent to Rat
-sub percent(Int $rate --> Rat) is export {
+#| Converts percent to number
+sub percent(Numeric $rate) is export {
     #= 4 becomes 0.04
-    Rat.new($rate,100);
+   $rate/100;
 }
 
-#| Converts 12345 to 123.45 as Rat
-sub money-in (Int $money --> Rat) is export {
-    Rat.new($money,100);
+#| Converts small money like 12345 to 123.45 
+sub money-in (Numeric $money) is export {
+    $money/100;
 }
 
 #| Converts interest rate that is yearly
@@ -55,13 +55,12 @@ sub rate-monthly(Numeric $rate) is export {
     #= Due to rat is not allowing double we use 
     #= following notation 4.04% is 404
     #= $rate / hundred / percent / months om year
-    Rat.new($rate,120000);
+    $rate/120000;
 }
 
-#| Converts percents wrote without decimal separator
-sub smallrate(Int $rate --> Rat) is export {
-    #= 404 becomes 0.404
-    Rat.new($rate,10000);
+#| Converts fractions of percents wrote without decimal separator
+sub smallrate(Int $rate) is export {    
+    $rate/10000;
 }
 
 #| Mother interface for all costs
