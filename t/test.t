@@ -2,7 +2,7 @@ use v6;
 use Test;
 use Mortage;
 
-plan 16;
+plan 15;
 
 class DBIWP is AnnualCostConst {
     has $.cumulation;
@@ -67,6 +67,5 @@ is $bank2.total_interest.round(0.01),167736.8, "Total interests";
 is $bank3.total_interest.round(0.01),167736.8, "Total interests";
 
 is percent(4),0.04, "Percent sub";
-is money-in(12345), 123.45, "Money sub";
 is rate-monthly(4.04),Rat.new(404,120000), "Rate-Monthly Sub";
 is smallrate(101),Rat.new(101,10000);

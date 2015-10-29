@@ -45,11 +45,6 @@ sub percent(Numeric $rate) is export {
    $rate/100;
 }
 
-#| Converts small money like 12345 to 123.45 
-sub money-in (Numeric $money) is export {
-    $money/100;
-}
-
 #| Converts interest rate that is yearly
 sub rate-monthly(Numeric $rate) is export {
     #= $rate / percent / months om year
