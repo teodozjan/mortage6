@@ -1,22 +1,44 @@
 use v6;
 
+# formulas base on http://www.mtgprofessor.com/formulas.htm
+
 #| Calculate monthly payment
 #| $c = interest rate;
 #| $n = mortages;
 #| $L = loan value;
-sub calculate-payment($c,$n,$L) is export{
+sub calculate-payment($c,$n,$L) is export {
     ($L*($c*(1 + $c)**$n))/((1 + $c)**$n - 1)
 }
 
 #| calculate-balance at any moment of loan
 #| $c = interest rate;
 #| $n = mortages;
+#| $p = payment
 #| $L = loan value;
 # TODO tests
-sub calculate-balance() is export {
-    B = $L((1 + $c)**$n - (1 + $c)**$p)/((1 + $c)**$n - 1)
+sub calculate-balance($c,$n,$L, $p) is export {
+    $L*((1 + $c)**$n - (1 + $c)**$p)/((1 + $c)**$n - 1)
 }
 
+#TODO APR
+# L - F = P1/(1 + i) + P2/(1 + i)2 +… (Pn + Bn)/(1 + i)n
+
+#| Future Values
+#| calculate-balance at any moment of loan
+#| S single sum now
+#| c interest rate
+#| n length of the period
+# TODO tests
+sub calculate-fvalue($S,$c,$n) is export {$S*(1+$c)**$n}
+
+#| calculate-balance at any moment of loan
+
+#| c interest rate
+#| n length of the period
+#| p periodic payment
+# TODO tests
+sub calculate-fvalue-series($P,$n,$c){ $P*[(1+$c)**$n - 1]/$c}
+    
 #| Converts percent to Rat
 sub percent(Int $rate --> Rat) is export {
     #= 4 becomes 0.04
