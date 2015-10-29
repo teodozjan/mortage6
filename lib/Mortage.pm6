@@ -1,5 +1,18 @@
 use v6;
 
+=begin pod
+=head1 Mortage
+C<Mortage> is a module that reads simulates mortage with emphasis on additional costs. 
+
+=head1 Synopsis
+    use Mortage;
+    my $bank = Mortage.new(bank=>"BANK",interest_rate => rate-monthly(324), mortage => money-in(129093), mortages => 360, to_pay=> 297000); 
+    $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.to_pay * smallrate(164))); # paid only once
+    $bank.calc; # all the stuff goes here
+    say $bank;
+=end pod
+
+
 #| Converts percent to Rat
 sub percent(Int $rate --> Rat) is export {
     #= 4 becomes 0.04
