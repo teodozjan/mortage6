@@ -1,5 +1,36 @@
 use v6;
 
+=begin pod
+
+=head1 Mortage
+C<Mortage> is a module that reads simulates mortage with emphasis on additional costs. 
+
+=head1 Synopsis
+
+    =begin code
+
+     use Mortage;
+     my $bank = Mortage.new(bank=>"BANK",interest_rate => rate-monthly(324), mortage => 1290.93, mortages => 360, loan-left=> 297000); 
+     $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left * basis-point(164))); # paid only once
+     $bank.calc; # all the stuff goes here
+     say $bank;
+
+    =end code
+
+=head1 Precision
+
+Type used for calculation is based on data put by user. So if C<FatRat> is
+provided it gets infinite precision. If Rat is provided, that is most common
+perl6 type for non-integer, probalby rakudo will implicitly change it to C<Num>.
+Don't worry for most mortages there is no difference.
+
+=head1 Rounding
+
+For now it uses arithmetic rounding. In future it should use bank rounding.
+   
+=end pod
+
+=cut     
 # formulas base on http://www.mtgprofessor.com/formulas.htm
 
 #| Calculate monthly payment
@@ -161,30 +192,3 @@ class Mortage {
     }
 }
 
-=begin pod
-=head1 Mortage
-C<Mortage> is a module that reads simulates mortage with emphasis on additional costs. 
-
-=head1 Synopsis
-    =begin code
-     use Mortage;
-     my $bank = Mortage.new(bank=>"BANK",interest_rate => rate-monthly(324), mortage => 1290.93, mortages => 360, loan-left=> 297000); 
-     $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left * basis-point(164))); # paid only once
-     $bank.calc; # all the stuff goes here
-     say $bank;
-    =end code
-
-=head1 Precision
-
-Type used for calculation is based on data put by user. So if C<FatRat> is
-provided it gets infinite precision. If Rat is provided, that is most common
-perl6 type for non-integer, probalby rakudo will implicitly change it to C<Num>.
-Don't worry for most mortages there is no difference.
-
-=head1 Rounding
-
-For now it uses arithmetic rounding. In future it should use bank rounding.
-   
-=end pod
-
-    
