@@ -122,7 +122,6 @@ class AnnualCostConst is AnnualCost {
 #| Methods int this class don't round values unless specified.#|
 #| Interest rates are stored in absolute value so 4% is 4/100
 class Mortgage {
-    #TODO sparate input data from output data
     has Str $.currency; #= Currency, for gist 
     has Str $.bank; #= Bank name for gist
     has Numeric $.loan-left; #= how much debt left
