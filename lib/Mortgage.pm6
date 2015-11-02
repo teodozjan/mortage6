@@ -144,13 +144,13 @@ class Mortgage {
             }
            
             #TODO rename
-            my $intests =  $!interest_rate*$!loan-left;
+            my $interests =  $!interest_rate*$!loan-left;
 
-            #say $mort, "  ",$intests.round(0.001), " ", $!loan-left.round(0.001);
+            #say $mort, "  ",$interests.round(0.001), " ", $!loan-left.round(0.001);
             
             $!loan-left -= $!mortage;
-            $!total_interest += $intests;
-            $!loan-left +=  $intests;
+            $!total_interest += $interests;
+            $!loan-left +=  $interests;
             
         }
         
