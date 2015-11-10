@@ -1,5 +1,9 @@
 use v6;
 
+#| Methods int this class Mortgage::don't round values unless specified.#|
+#| Interest rates are stored in absolute value so 4% is 4/100
+unit class Mortgage;
+
 =begin pod
 
 =head1 Mortgage
@@ -11,7 +15,7 @@ C<Mortgage> is a module that reads simulates mortage with emphasis on additional
 
      use Mortgage;
      my $bank = Mortgage.new(bank=>"BANK",interest_rate => rate-monthly(324), mortage => 1290.93, mortages => 360, loan-left=> 297000); 
-     $bank.add(AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left * basis-point(164))); # paid only once
+     $bank.add(Mortgage::AnnualCostConst.new(from=>1, to=>1, value=>$bank2.loan-left * basis-point(164))); # paid only once
      $bank.calc; # all the stuff goes here
      say $bank;
 
@@ -88,14 +92,14 @@ sub basis-point(Numeric $rate) is export {
 }
 
 #| Mother interface for all costs
-class AnnualCost{
+class Mortgage::AnnualCost {
     has Int $.from;
     has Int $.to;
     method get( $loan-left,  $mortage) {!!!} 
 }
 
 #| Cost based on debt left
-class AnnualCostPercentage is AnnualCost {
+class Mortgage::AnnualCostPercentage is Mortgage::AnnualCost {
     has $.interest_rate;
     method get( $loan-left,  $mortage) { 
         return $loan-left*$!interest_rate;
@@ -103,7 +107,7 @@ class AnnualCostPercentage is AnnualCost {
 }
 
 #| Cost based on monthly mortage installment
-class AnnualCostMort is AnnualCost {
+class Mortgage::AnnualCostMort is Mortgage::AnnualCost {
     has $.interest_rate;
     method get( $loan-left,  $mortage) {
         return $mortage*$!interest_rate;
@@ -111,7 +115,7 @@ class AnnualCostMort is AnnualCost {
 }
 
 #| Annual cost not basing on anything just constant value
-class AnnualCostConst is AnnualCost {
+class Mortgage::AnnualCostConst is Mortgage::AnnualCost {
     has  $.value;
     method get( $loan-left,  $mortage)   {
         return $!value;
@@ -119,9 +123,7 @@ class AnnualCostConst is AnnualCost {
 
 }
 
-#| Methods int this class don't round values unless specified.#|
-#| Interest rates are stored in absolute value so 4% is 4/100
-class Mortgage {
+
     has Str $.currency; #= Currency, for gist 
     has Str $.bank; #= Bank name for gist
     has Numeric $.loan-left; #= how much debt left
@@ -130,7 +132,7 @@ class Mortgage {
     has Numeric $.mortage; #= The money you pay monthly without other costs 
     has Numeric $.total_interest; #= total interest paid
     has Numeric $.total_cost; #total cost, including interest
-    has AnnualCost @.costs; #= Costs list included in calculation
+    has Mortgage::AnnualCost @.costs; #= Costs list included in calculation
 
     #| Simulation runs here. Calculates all months. 
     method calc {
@@ -181,7 +183,7 @@ class Mortgage {
 
     #| Every cost is counted annualy so if you want to
     #| add one time cost just place it in correct month
-    method add(AnnualCost $cost){
+    method add(Mortgage::AnnualCost $cost){
         @!costs.push($cost);
     }
     
@@ -189,5 +191,5 @@ class Mortgage {
     method cash($cash){
         $!loan-left -= $cash;
     }
-}
+
 
