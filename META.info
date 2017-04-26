@@ -1,6 +1,7 @@
 {
     "perl"        : "6.*",
     "name"        : "Mortgage",
+    "license"     : "Artistic-2.0",
     "version"     : "*",
     "author"	  : "github:teodozjan",
     "description" : "Mortgage calculation library",
