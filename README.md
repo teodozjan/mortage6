@@ -24,6 +24,6 @@ my $mortgage =  $bank.calc_mortage;
 $bank.calc;
 
 my $loanleft = $bank.loan-left.round(0.01);
-my $bank.total_cost = $bank.total_cost.round(0.01);
-my $bank.total_interest= $bank.total_interest.round(0.01);
+my $total_cost = $bank.total_cost.round(0.01);
+my $total_interest= $bank.total_interest.round(0.01);
 ```
